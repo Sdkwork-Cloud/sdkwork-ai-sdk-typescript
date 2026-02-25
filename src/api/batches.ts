@@ -7,10 +7,11 @@ import type {
   BatchesModule,
 } from '../types/batches';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class BatchesApi extends BaseApi implements BatchesModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/batches' });
+    super(client, { basePath: API_PATHS.batches.base });
   }
 
   async create(request: BatchCreateRequest): Promise<Batch> {

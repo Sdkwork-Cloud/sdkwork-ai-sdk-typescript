@@ -5,10 +5,11 @@ import type {
   ModelListResponse,
   ModelsModule,
 } from '../types/models';
+import { API_PATHS } from './paths';
 
 export class ModelsApi extends BaseApi implements ModelsModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/models' });
+    super(client, { basePath: API_PATHS.models.base });
   }
 
   async list(): Promise<ModelListResponse> {

@@ -1,3 +1,4 @@
+export * from './paths';
 export * from './base';
 export * from './chat';
 export * from './audio';

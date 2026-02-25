@@ -10,17 +10,27 @@ export default defineConfig({
       formats: ['es', 'cjs'],
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
     },
+    outDir: 'dist',
     sourcemap: true,
     minify: 'esbuild',
     rollupOptions: {
-      external: ['axios'],
+      external: ['@sdkwork/sdk-common', /^@sdkwork\/sdk-common\/.*/],
+      output: {
+        exports: 'named',
+      },
     },
+    target: 'es2020',
   },
   plugins: [
     dts({
       include: ['src/**/*'],
       outDir: 'dist',
-      rollupTypes: true,
+      rollupTypes: false,
     }),
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
 });

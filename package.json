@@ -1,9 +1,7 @@
 {
   "name": "@sdkwork/ai-sdk",
   "version": "1.0.0",
-  "description": "SDKWork AI SDK - Professional TypeScript SDK for AI API (OpenAI Compatible)",
-  "author": "SDKWork Team",
-  "license": "MIT",
+  "description": "SDKwork AI SDK - AI API Gateway TypeScript SDK",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -13,6 +11,26 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
+    },
+    "./http": {
+      "import": "./dist/http/index.js",
+      "require": "./dist/http/index.cjs",
+      "types": "./dist/http/index.d.ts"
+    },
+    "./auth": {
+      "import": "./dist/auth/index.js",
+      "require": "./dist/auth/index.cjs",
+      "types": "./dist/auth/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./api": {
+      "import": "./dist/api/index.js",
+      "require": "./dist/api/index.cjs",
+      "types": "./dist/api/index.d.ts"
     }
   },
   "files": [
@@ -20,10 +38,11 @@
     "README.md"
   ],
   "scripts": {
+    "build": "vite build",
     "dev": "vite build --watch",
-    "build": "vite build && tsc --emitDeclarationOnly",
-    "build:types": "tsc --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "clean": "rm -rf dist",
@@ -31,42 +50,39 @@
   },
   "keywords": [
     "sdkwork",
-    "sdk",
-    "typescript",
     "ai",
+    "sdk",
     "openai",
-    "chat",
-    "embeddings",
+    "chatgpt",
     "llm"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sdkwork/spring-ai-plus.git",
-    "directory": "spring-ai-plus-business/spring-ai-plus-ai-api/sdk/sdkwork-ai-sdk-typescript"
-  },
-  "bugs": {
-    "url": "https://github.com/sdkwork/spring-ai-plus/issues"
-  },
-  "homepage": "https://github.com/sdkwork/spring-ai-plus#readme",
-  "engines": {
-    "node": ">=18.0.0"
+  "author": "SDKwork",
+  "license": "MIT",
+  "dependencies": {
+    "@sdkwork/sdk-common": "file:../../../sdk/sdkwork-sdk-common-typescript"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
-    "@typescript-eslint/eslint-plugin": "^6.13.0",
-    "@typescript-eslint/parser": "^6.13.0",
-    "eslint": "^8.55.0",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.4",
-    "vite-plugin-dts": "^3.6.3",
-    "vitest": "^1.0.4"
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.0",
+    "vitest": "^1.1.0"
   },
   "peerDependencies": {
-    "axios": "^1.6.0"
+    "typescript": ">=5.0.0"
   },
-  "peerDependenciesMeta": {
-    "axios": {
-      "optional": true
-    }
-  }
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sdkwork/ai-sdk-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sdkwork/ai-sdk-typescript/issues"
+  },
+  "homepage": "https://github.com/sdkwork/ai-sdk-typescript#readme"
 }

@@ -8,10 +8,11 @@ import type {
   TranslationResponse,
   AudioModule,
 } from '../types/audio';
+import { API_PATHS } from './paths';
 
 export class AudioApi extends BaseApi implements AudioModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/audio' });
+    super(client, { basePath: API_PATHS.audio.speech.replace('/speech', '') });
   }
 
   async createSpeech(request: SpeechRequest): Promise<Blob> {

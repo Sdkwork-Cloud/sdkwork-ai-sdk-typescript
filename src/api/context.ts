@@ -5,10 +5,11 @@ import type {
   Context,
   ContextModule,
 } from '../types/context';
+import { API_PATHS } from './paths';
 
 export class ContextApi extends BaseApi implements ContextModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/context' });
+    super(client, { basePath: API_PATHS.context.base });
   }
 
   async create(request: ContextCreateRequest): Promise<Context> {

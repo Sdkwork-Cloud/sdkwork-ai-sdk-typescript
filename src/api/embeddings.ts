@@ -5,10 +5,11 @@ import type {
   EmbeddingResponse,
   EmbeddingsModule,
 } from '../types/embeddings';
+import { API_PATHS } from './paths';
 
 export class EmbeddingsApi extends BaseApi implements EmbeddingsModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/embeddings' });
+    super(client, { basePath: API_PATHS.embeddings.base });
   }
 
   async create(request: EmbeddingRequest): Promise<EmbeddingResponse> {

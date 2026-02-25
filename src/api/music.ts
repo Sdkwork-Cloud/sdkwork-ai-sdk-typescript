@@ -7,14 +7,19 @@ import type {
   MusicModule,
 } from '../types/music';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class MusicApi extends BaseApi implements MusicModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/music' });
+    super(client, { basePath: API_PATHS.music.generations.replace('/generations', '') });
   }
 
   async generate(request: MusicGenerationRequest): Promise<Music> {
     return this.postRequest<Music>('/generations', request);
+  }
+
+  async create(request: MusicGenerationRequest): Promise<Music> {
+    return this.generate(request);
   }
 
   async list(params?: ListQueryParams): Promise<MusicListResponse> {

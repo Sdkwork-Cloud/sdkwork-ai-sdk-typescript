@@ -11,10 +11,11 @@ import type {
   ThreadsModule,
 } from '../types/threads';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class ThreadsApi extends BaseApi implements ThreadsModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/threads' });
+    super(client, { basePath: API_PATHS.threads.base });
   }
 
   async create(request?: ThreadCreateRequest): Promise<Thread> {

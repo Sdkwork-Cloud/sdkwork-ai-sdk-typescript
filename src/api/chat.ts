@@ -11,10 +11,11 @@ import type {
 } from '../types/chat';
 import type { ListQueryParams, Page } from '../types/core';
 import type { ChatCompletionMessage } from '../types/chat';
+import { API_PATHS } from './paths';
 
 export class ChatApi extends BaseApi implements ChatModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/chat/completions' });
+    super(client, { basePath: API_PATHS.chat.completions });
   }
 
   async create(request: ChatCompletionRequest): Promise<ChatCompletion> {
@@ -22,13 +23,30 @@ export class ChatApi extends BaseApi implements ChatModule {
   }
 
   async *createStream(request: ChatCompletionRequest): AsyncIterable<ChatCompletionChunk> {
-    const response = await fetch(`${this.client['config'].baseUrl}${this.basePath}`, {
+    const config = this.client.getConfig();
+    const tokenManager = this.client.getTokenManager();
+    
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (config.authMode === 'apikey' && config.apiKey) {
+      headers['Authorization'] = `Bearer ${config.apiKey}`;
+    } else if (tokenManager) {
+      const accessToken = tokenManager.getAccessToken();
+      const authToken = tokenManager.getAuthToken();
+      
+      if (accessToken) {
+        headers['Access-Token'] = accessToken;
+      }
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+      }
+    }
+    
+    const response = await fetch(`${config.baseUrl}${this.basePath}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.client['apiKey']}`,
-        ...this.client['config'].headers,
-      },
+      headers,
       body: JSON.stringify({ ...request, stream: true }),
     });
 
@@ -61,7 +79,7 @@ export class ChatApi extends BaseApi implements ChatModule {
               const json = trimmedLine.slice(6);
               yield JSON.parse(json) as ChatCompletionChunk;
             } catch {
-              // ignore parse errors
+              // ignore parse errors for incomplete chunks
             }
           }
         }

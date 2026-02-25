@@ -7,10 +7,11 @@ import type {
   VideoModule,
 } from '../types/video';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class VideoApi extends BaseApi implements VideoModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/videos' });
+    super(client, { basePath: API_PATHS.videos.base });
   }
 
   async create(request: VideoGenerationRequest): Promise<Video> {

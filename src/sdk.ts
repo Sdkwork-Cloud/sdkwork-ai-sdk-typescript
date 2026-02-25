@@ -1,5 +1,6 @@
 import { HttpClient, createHttpClient } from './http/client';
 import type { AiSdkConfig, RequestInterceptor, ResponseInterceptor, ErrorInterceptor } from './types/core';
+import type { AuthTokenManager, AuthMode, AuthTokens } from './auth';
 import type { ChatModule } from './types/chat';
 import type { AudioModule } from './types/audio';
 import type { ImageModule } from './types/image';
@@ -134,18 +135,54 @@ export class AiSdk {
     return this.modules.context;
   }
 
+  getAuthMode(): AuthMode {
+    return this.httpClient.getAuthMode();
+  }
+
+  setAuthMode(mode: AuthMode): this {
+    this.httpClient.setAuthMode(mode);
+    return this;
+  }
+
   setApiKey(apiKey: string): this {
     this.httpClient.setApiKey(apiKey);
     return this;
   }
 
-  setOrganization(organization: string): this {
-    this.httpClient.setOrganization(organization);
+  setAuthToken(token: string): this {
+    this.httpClient.setAuthToken(token);
     return this;
   }
 
-  setProjectId(projectId: string): this {
-    this.httpClient.setProjectId(projectId);
+  setAccessToken(token: string): this {
+    this.httpClient.setAccessToken(token);
+    return this;
+  }
+
+  setTokens(tokens: AuthTokens): this {
+    const tokenManager = this.httpClient.getTokenManager();
+    if (tokenManager) {
+      tokenManager.setTokens(tokens);
+    }
+    return this;
+  }
+
+  getTokens(): AuthTokens {
+    const tokenManager = this.httpClient.getTokenManager();
+    return tokenManager?.getTokens() ?? {};
+  }
+
+  getTokenManager(): AuthTokenManager | undefined {
+    return this.httpClient.getTokenManager();
+  }
+
+  setTokenManager(manager: AuthTokenManager): this {
+    this.httpClient.setTokenManager(manager);
+    return this;
+  }
+
+  clearAuthToken(): this {
+    this.httpClient.clearAuthToken();
     return this;
   }
 
@@ -164,6 +201,30 @@ export class AiSdk {
   clearCache(): this {
     this.httpClient.clearCache();
     return this;
+  }
+
+  isAuthenticated(): boolean {
+    const tokenManager = this.httpClient.getTokenManager();
+    if (!tokenManager) {
+      return false;
+    }
+    return tokenManager.isValid();
+  }
+
+  hasAuthToken(): boolean {
+    const tokenManager = this.httpClient.getTokenManager();
+    if (!tokenManager) {
+      return false;
+    }
+    return !!tokenManager.getAuthToken();
+  }
+
+  hasAccessToken(): boolean {
+    const tokenManager = this.httpClient.getTokenManager();
+    if (!tokenManager) {
+      return false;
+    }
+    return !!tokenManager.getAccessToken();
   }
 }
 

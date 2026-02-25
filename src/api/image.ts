@@ -7,10 +7,11 @@ import type {
   ImageResponse,
   ImageModule,
 } from '../types/image';
+import { API_PATHS } from './paths';
 
 export class ImageApi extends BaseApi implements ImageModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/images' });
+    super(client, { basePath: API_PATHS.images.generations.replace('/generations', '') });
   }
 
   async generate(request: ImageGenerationRequest): Promise<ImageResponse> {

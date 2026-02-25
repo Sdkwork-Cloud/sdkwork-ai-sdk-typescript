@@ -11,10 +11,11 @@ import type {
   KnowledgeBaseModule,
 } from '../types/knowledge';
 import type { ListQueryParams, Page } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class KnowledgeBaseApi extends BaseApi implements KnowledgeBaseModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/knowledge-bases' });
+    super(client, { basePath: API_PATHS.knowledge.base });
   }
 
   async create(request: KnowledgeBaseCreateRequest): Promise<KnowledgeBase> {

@@ -5,10 +5,11 @@ import type {
   ModerationResponse,
   ModerationsModule,
 } from '../types/moderations';
+import { API_PATHS } from './paths';
 
 export class ModerationsApi extends BaseApi implements ModerationsModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/moderations' });
+    super(client, { basePath: API_PATHS.moderations.base });
   }
 
   async create(request: ModerationRequest): Promise<ModerationResponse> {

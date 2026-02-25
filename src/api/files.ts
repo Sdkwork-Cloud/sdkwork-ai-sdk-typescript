@@ -7,10 +7,11 @@ import type {
   FilesModule,
 } from '../types/files';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class FilesApi extends BaseApi implements FilesModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/files' });
+    super(client, { basePath: API_PATHS.files.base });
   }
 
   async upload(request: FileUploadRequest): Promise<File> {

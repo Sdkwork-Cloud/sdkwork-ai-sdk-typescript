@@ -8,10 +8,11 @@ import type {
   AssistantsModule,
 } from '../types/assistants';
 import type { ListQueryParams } from '../types/core';
+import { API_PATHS } from './paths';
 
 export class AssistantsApi extends BaseApi implements AssistantsModule {
   constructor(client: HttpClient) {
-    super(client, { basePath: '/ai/v3/assistants' });
+    super(client, { basePath: API_PATHS.assistants.base });
   }
 
   async create(request: AssistantCreateRequest): Promise<Assistant> {
